@@ -1,9 +1,9 @@
 package de.thm.recent
 
 import spray.json._
+import JsProtocol._
 
 trait Recent[A] {
-	this: DefaultJsonProtocol =>
 
 	def recentValues: Seq[RecentValue[A]]
 
@@ -17,7 +17,6 @@ trait Recent[A] {
 		recentValuesByPriority.map(v => v.value)
 
 	def toJson(implicit format:JsonFormat[A]): String = {
-		implicit val recVFormat = jsonFormat2(RecentValue.apply[A])
 		recentValuesByPriority.toJson.prettyPrint
 	}
 }

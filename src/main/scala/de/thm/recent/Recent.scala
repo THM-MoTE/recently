@@ -8,7 +8,7 @@ trait Recent[A] {
 	def recentValues: Seq[RecentValue[A]]
 
 	def recentValuesByPriority: Seq[RecentValue[A]] =
-		recentValues.sortBy(v => v.priority)
+		recentValues.sortWith( (a,b) => a.priority > b.priority)
 
 	def recentElements: Seq[A] =
 		recentValues.map(v => v.value)
@@ -18,7 +18,7 @@ trait Recent[A] {
 
 	def toJson(implicit format:JsonFormat[A]): String = {
 		implicit val recVFormat = jsonFormat2(RecentValue.apply[A])
-		recentValuesByPriority.toJson.compactPrint
+		recentValuesByPriority.toJson.prettyPrint
 	}
 }
 

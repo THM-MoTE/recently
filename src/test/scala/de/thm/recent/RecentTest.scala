@@ -21,7 +21,7 @@ class RecentTest extends RcTest with DefaultJsonProtocol {
 	}
 
 	it should "use a predefined list with priority" in {
-		val lst = (0 until 20).toList.zip( (20 until 0 by -1).toList )
+		val lst = (0 until 20).toList.zip( (0 until 20).toList )
 		val rc = Recent.fromPriorityList(lst)
 		rc.recentElements shouldBe lst.map(_._1)
 		rc.recentElementsByPriority shouldBe lst.map(_._1).reverse

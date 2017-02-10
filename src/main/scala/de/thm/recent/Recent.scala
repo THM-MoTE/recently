@@ -2,6 +2,8 @@ package de.thm.recent
 
 import spray.json._
 import JsProtocol._
+import java.io.InputStream
+import java.nio.charset.StandardCharsets
 
 trait Recent[A] {
 
@@ -37,5 +39,10 @@ object Recent {
 	def fromJson[A : JsonFormat](json:String): Recent[A] = {
 		val values = json.parseJson.convertTo[List[RecentValue[A]]]
 		new RecentList(values)
+	}
+
+	def fromInputStream[A : JsonFormat](is:InputStream): Recent[A] = {
+		val buffSrc = scala.io.Source.fromInputStream(is)(scala.io.Codec(StandardCharsets.UTF_8))
+		fromJson(buffSrc.mkString)
 	}
 }

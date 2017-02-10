@@ -53,4 +53,11 @@ class RecentTest extends RcTest with DefaultJsonProtocol {
 	 val json = rc.toJson
 	 Recent.fromJson[Int](json) shouldBe rc
  }
+
+ it should "convert from an InputStream containing JSON representation" in {
+	 val lst = List("akame" -> 5, "kurome" -> 3, "maggy" -> 2)
+	 val stream = classOf[RecentTest].getClassLoader.getResourceAsStream("recent.json")
+	 val recent = Recent.fromInputStream[String](stream)
+	 recent shouldBe Recent.fromPriorityList(lst)
+ }
 }

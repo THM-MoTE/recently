@@ -33,4 +33,9 @@ object Recent {
 		}
 		new RecentList(recentValues)
 	}
+
+	def fromJson[A : JsonFormat](json:String): Recent[A] = {
+		val values = json.parseJson.convertTo[List[RecentValue[A]]]
+		new RecentList(values)
+	}
 }

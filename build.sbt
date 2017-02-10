@@ -8,4 +8,6 @@ lazy val root = Project(id = "recently", base = file(".")).
     javacOptions ++= Seq("-source", "1.8")
   )
 
-libraryDependencies += "io.spray" %%  "spray-json" % "1.3.3"
+libraryDependencies ++=
+  Seq("io.spray" %%  "spray-json" % "1.3.3",
+      "org.scalatest" %% "scalatest" % "2.2.6" % Test)

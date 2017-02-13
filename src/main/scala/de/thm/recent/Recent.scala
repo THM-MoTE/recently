@@ -6,6 +6,7 @@ import java.io.InputStream
 import java.nio.charset.StandardCharsets
 
 trait Recent[A] {
+	type Self <: Recent[A]
 
 	def recentValues: Seq[RecentValue[A]]
 

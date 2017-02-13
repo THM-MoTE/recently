@@ -24,4 +24,10 @@ case class RecentList[A](lst:Seq[RecentValue[A]])
 			}
 			.getOrElse(this)
 	}
+
+	override def updatePriority(a:A, defaultPriority:Int)(fn: RecentValue[A] => Int): Self = {
+		val newPriority = lst.find(_.value == a).map(fn).getOrElse(defaultPriority)
+		val rc = RecentValue(a, newPriority)
+		setValue(rc)
+	}
 }

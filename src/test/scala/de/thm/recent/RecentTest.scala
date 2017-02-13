@@ -95,4 +95,18 @@ class RecentTest extends RcTest with DefaultJsonProtocol {
 	 newRecent.recentValues should have size lst.size
 	 newRecent shouldBe recent
  }
+
+ it should "update priority with given default value" in {
+	 val lst = List("akame" -> 5, "kurome" -> 3, "maggy" -> 2)
+	 val recent = Recent.fromPriorityList(lst)
+	 val newRecent = recent.updatePriority("naruto", 6)(_ => 10)
+	 newRecent.recentValues shouldBe (("naruto" -> 6) +: lst).map(asRecentValue)
+ }
+
+  it should "update priority with given function" in {
+		val lst = List("akame" -> 5, "kurome" -> 3, "maggy" -> 2)
+		val recent = Recent.fromPriorityList(lst)
+		val newRecent = recent.updatePriority("akame", 6)(oldVal => oldVal.priority+2)
+		newRecent.recentValues shouldBe (("akame" -> 7) +: lst.tail).map(asRecentValue)
+	}
 }

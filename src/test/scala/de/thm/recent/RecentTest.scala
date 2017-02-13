@@ -3,6 +3,9 @@ package de.thm.recent
 import spray.json._
 
 class RecentTest extends RcTest with DefaultJsonProtocol {
+
+	def asRecentValue[A](tuple:(A, Int)) = RecentValue(tuple._1, tuple._2)
+
 	"Recent" should "use a predefined list" in {
 		val lst = (0 until 20).map(RecentValue(_, 1)).toList
 		val rList = new RecentList(lst)
@@ -59,5 +62,37 @@ class RecentTest extends RcTest with DefaultJsonProtocol {
 	 val stream = classOf[RecentTest].getClassLoader.getResourceAsStream("recent.json")
 	 val recent = Recent.fromInputStream[String](stream)
 	 recent shouldBe Recent.fromPriorityList(lst)
+ }
+
+ it should "add a new value" in {
+	 val lst = List("akame" -> 5, "kurome" -> 3, "maggy" -> 2)
+	 val recent = Recent.fromPriorityList(lst)
+ 	 val newRecent = recent.setValue(RecentValue[String]("naruto", 6))
+	 newRecent.recentElementsByPriority shouldBe "naruto" :: lst.map(_._1)
+ }
+
+ it should "update an existing value" in {
+	 val lst = List("akame" -> 5, "kurome" -> 3, "maggy" -> 2)
+	 val recent = Recent.fromPriorityList(lst)
+ 	 val newRecent = recent.setValue(RecentValue[String]("maggy", 8))
+	 newRecent.recentValues should have size lst.size
+	 newRecent.recentValues shouldBe List("maggy" -> 8, "akame" -> 5, "kurome" -> 3).map(asRecentValue)
+ }
+
+ it should "update priority of existent values" in {
+	 val lst = List("akame" -> 5, "kurome" -> 3, "maggy" -> 2)
+	 val recent = Recent.fromPriorityList(lst)
+	 val newRecent = recent.updatePriority(RecentValue("kurome", 6))
+	 newRecent.recentValues should have size lst.size
+	 newRecent.recentValues shouldBe List("kurome" -> 6, "akame" -> 5, "maggy" -> 2).map(asRecentValue)
+ }
+
+ it should "not update priority of non-existent values" in {
+	 val lst = List("akame" -> 5, "kurome" -> 3, "maggy" -> 2)
+	 val recent = Recent.fromPriorityList(lst)
+	 val newVal = RecentValue("naruto", 3)
+	 val newRecent = recent.updatePriority(newVal)
+	 newRecent.recentValues should have size lst.size
+	 newRecent shouldBe recent
  }
 }

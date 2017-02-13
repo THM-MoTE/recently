@@ -14,4 +14,14 @@ case class RecentList[A](lst:Seq[RecentValue[A]])
 		}
 		RecentList(newList)
 	}
+
+	override def updatePriority(value:RecentValue[A]): Self = {
+		lst
+			.find(_.value == value.value)
+			.map { oldVal =>
+				val newList = oldVal.copy(priority = value.priority) +: lst.filter(_ != oldVal)
+				RecentList(newList)
+			}
+			.getOrElse(this)
+	}
 }

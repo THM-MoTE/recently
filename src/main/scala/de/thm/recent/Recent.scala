@@ -24,6 +24,7 @@ trait Recent[A] {
 	}
 
 	def setValue(value:RecentValue[A]): Self
+	def updatePriority(value:RecentValue[A]): Self
 }
 
 object Recent {

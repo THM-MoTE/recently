@@ -22,6 +22,8 @@ trait Recent[A] {
 	def toJson(implicit format:JsonFormat[A]): String = {
 		recentValuesByPriority.toJson.prettyPrint
 	}
+
+	def setValue(value:RecentValue[A]): Self
 }
 
 object Recent {

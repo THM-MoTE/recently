@@ -1,6 +1,14 @@
 = recently
+
 *recently* is a small library that allows you to manage _recently used_ files, folders or projects.
 recently is going to be used in
 https://github.com/THM-MoTE/mope-server[MoPE]
 and
 https://github.com/THM-MoTE/MoVE[MoVE].
+
+
+== TODOs
+
+* [ ] Implement an update mechanism for mutating the _recently used files_ list
+* [ ] Add a  _recently used files_ list with a fixed size `n`. (Drop elements with _lowest_ `priority`)
+* [ ] Add a generator for JavaFX MenuItems from a  _recently used files_ list

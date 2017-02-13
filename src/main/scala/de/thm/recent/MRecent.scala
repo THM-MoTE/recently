@@ -16,3 +16,8 @@ class MRecent[A](private var underlying:Recent[A]) extends Recent[A] {
 		this
 	}
 }
+
+object MRecent {
+	def apply[A](recent:Recent[A]):Recent[A] = new MRecent(recent)
+	def fromList[A](xs:List[A]):Recent[A] = MRecent(Recent.fromList(xs))
+}

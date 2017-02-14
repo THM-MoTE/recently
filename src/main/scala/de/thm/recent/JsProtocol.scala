@@ -16,8 +16,18 @@
 
 package de.thm.recent
 
+import java.nio.file.{Path, Paths}
+
 import spray.json._
 
 object JsProtocol extends DefaultJsonProtocol {
 	implicit def recVFormat[A : JsonFormat] = jsonFormat2(RecentValue.apply[A])
+	implicit val pathFormat = new RootJsonFormat[Path]() {
+		override def write(path: Path): JsValue = JsString(path.toString)
+
+		override def read(json: JsValue): Path = json match {
+			case JsString(str)=> Paths.get(str)
+			case _ => deserializationError("String-encoded path expected")
+		}
+	}
 }

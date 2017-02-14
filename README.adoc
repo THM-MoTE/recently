@@ -10,4 +10,3 @@ https://github.com/THM-MoTE/MoVE[MoVE].
 == TODOs
 
 * [ ] Add a  _recently used files_ list with a fixed size `n`. (Drop elements with _lowest_ `priority`)
-* [ ] Add a generator for JavaFX MenuItems from a  _recently used files_ list

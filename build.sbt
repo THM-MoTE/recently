@@ -4,7 +4,7 @@ lazy val root = Project(id = "recently", base = file(".")).
     organization := "de.thm.mote",
     name := "recently",
     version := "0.1",
-    scalaVersion := "2.12.2",
+    scalaVersion := "2.12.3",
     javacOptions ++= Seq("-source", "1.8")
   )
 
